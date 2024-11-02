@@ -3,42 +3,6 @@ import requests
 def emotion_detector(text_to_analyze):
     """
     This function takes in a string and returns the emotion of the text.
-
-    Data returned by the API:
-    {
-        "emotionPredictions": [
-            {
-                "emotion": {
-                    "joy": 0.95,
-                    "sadness": 0.02,
-                    "anger": 0.01,
-                    "fear": 0.01,
-                    "disgust": 0.01
-                },
-                "target": "",
-                "emotionMentions": [
-                    {
-                        "span": {
-                            "begin": 0,
-                            "end": 26,
-                            "text": "I am so happy I am doing this"
-                        },
-                        "emotion": {
-                            "joy": 0.95,
-                            "sadness": 0.02,
-                            "anger": 0.01,
-                            "fear": 0.01,
-                            "disgust": 0.01
-                        }
-                    }
-                ]
-            }
-        ],
-        "producerId": {
-            "name": "Ensemble Aggregated Emotion Workflow",
-            "version": "1.0.0"
-        }
-    }
     """
 
     # URL for the API
@@ -53,7 +17,14 @@ def emotion_detector(text_to_analyze):
     response = requests.post(url=url, headers=headers, json=input_json, timeout=60)
 
     if response.status_code != 200:
-        return None
+        return {
+            'anger': None,
+            'disgust': None, 
+            'fear': None, 
+            'joy': None, 
+            'sadness': None, 
+            'dominant_emotion': None
+        }
     
     response_data = response.json()
 
